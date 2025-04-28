@@ -1,0 +1,14 @@
+
+{
+  "name": "R Development",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "extensions": [
+    "REditorSupport.r",
+    "REditorSupport.r-lsp"
+  ],
+  "settings": {
+    "r.rpath.linux": "/usr/local/bin/R"
+  }
+}

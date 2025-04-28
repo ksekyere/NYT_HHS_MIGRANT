@@ -1,0 +1,9 @@
+{
+    "r.rterm.linux": "/usr/local/bin/R",
+    "r.rpath.mac": "/Library/Frameworks/R.framework/Resources/bin/R/",
+    "r.rterm.mac": "/usr/local/bin/radian/",
+    "r.rterm.option": [
+        "--no-save",
+        "--no-restore",
+        "--r-binary=/usr/local/bin/R"]
+}

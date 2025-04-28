@@ -8,6 +8,7 @@ library(shiny)
 
 
 
+
 days_till_reunification %>%
     filter(days_till_reunification < 200) %>%
     ggplot(aes(x = as.numeric(days_till_reunification))) +

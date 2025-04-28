@@ -1,7 +1,0 @@
-{
-    "r.rterm.mac": "/usr/local/bin/R",
-    "r.rpath.mac": "/usr/local/bin/R",
-    "r.alwaysUseActiveTerminal": true,
-    "r.sessionWatcher": true
-  }
-  

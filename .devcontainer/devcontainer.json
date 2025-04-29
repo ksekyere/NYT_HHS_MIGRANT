@@ -10,7 +10,8 @@
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"r.rterm.linux": "/usr/local/bin/radian",
 		"r.bracketedPaste": true,
-		"workbench.colorTheme": "Night Owl"
+		"workbench.colorTheme": "Night Owl", 
+		"r.alwaysUseActiveTerminal": true
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.

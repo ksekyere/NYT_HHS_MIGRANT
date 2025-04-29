@@ -1,20 +1,18 @@
-library(shinydashboard)
-library(shiny)
+
+
+source('/workspaces/NYT_HHS_MIGRANT/read_in_nyt_data.r')
 
 
 
 
-
-
-
-
-
+#density plot -----------
 days_till_reunification %>%
     filter(days_till_reunification < 200) %>%
     ggplot(aes(x = as.numeric(days_till_reunification))) +
     geom_density()
 
 
+#line graphs -------------
 days_till_reunification %>%
     mutate(
         release_month = rollback(date_of_release, roll_to_first = TRUE),
@@ -34,7 +32,7 @@ days_till_reunification %>%
 
 
 
-days_till_reunification %>%
+ days_till_reunification %>%
     mutate(
         release_month = rollback(date_of_release, roll_to_first = TRUE),
         arrival_month = rollback(date_of_entry, roll_to_first = TRUE)
@@ -75,50 +73,3 @@ days_till_reunification %>%
     ylab("") +
     xlab("ORR Release Date")
 
-names(days_till_reunification)
-
-str(top_countries)
-
-
-
-hhs_migrant_data %>%
-    group_by(Sponsor.Category) %>%
-    summarise(num_of_entries = length(unique(Relationship.of.Sponsor)))
-
-
-hhs_migrant_data %>%
-    filter(Sponsor.Category == 3) %>%
-    select(Relationship.of.Sponsor) %>%
-    pull(Relationship.of.Sponsor) %>%
-    unique()
-
-
-unique(Relationship.of.Sponsor)
-
-
-
-
-names(days_till_reunification)
-
-
-
-top_countries <- days_till_reunification %>%
-    group_by(country_of_origin) %>%
-    summarise(kids = n()) %>%
-    ungroup() %>%
-    arrange(desc(kids)) %>%
-    slice(1:5) %>%
-    select(country_of_origin)
-mutate(country_of_origin = str_trim(country_of_origin))
-
-mutate(country_of_origin = str_replace(country_of_origin, "\\\\", ""))
-
-
-
-
-hhs_migrant_data %>%
-    filter(is.na(Sponsor.Category)) %>%
-    View()
-
-
-hhs_migrant_data$country_of_origin %in% top_countries$country_of_origin

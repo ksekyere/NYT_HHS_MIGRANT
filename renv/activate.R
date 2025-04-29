@@ -6,6 +6,17 @@ local({
   # the project directory
   project <- getwd()
 
+
+  #attach R for VS Code
+  if (requireNamespace("languageserver", quietly = TRUE)) {
+  source(file.path(Sys.getenv("HOME"), ".vscode-R", "init.R"))
+}
+
+if (requireNamespace("httpgd", quietly = TRUE)) {
+  options(vsc.plot=TRUE)
+  httpgd::hgd()
+  .vsc.browser(httpgd::hgd_url())
+}
   # allow environment variable to control activation
   activate <- Sys.getenv("RENV_ACTIVATE_PROJECT")
   if (!nzchar(activate)) {

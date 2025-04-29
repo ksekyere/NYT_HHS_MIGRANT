@@ -1,3 +1,5 @@
 library(languageserver)
 library(lintr)
 library(styler)
+library(rlang)
+library(jsonlite)

@@ -1,6 +1,7 @@
 
 
-source('/workspaces/NYT_HHS_MIGRANT/read_in_nyt_data.r')
+ source("/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/read_in_nyt_data.r", encoding = "UTF-8")
+
 
 
 
@@ -73,3 +74,8 @@ days_till_reunification %>%
     ylab("") +
     xlab("ORR Release Date")
 
+
+
+names(days_till_reunification)
+
+unique(days_till_reunification$Sponsor.Zipcode)

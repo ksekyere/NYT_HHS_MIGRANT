@@ -2,11 +2,12 @@ library(dplyr)
 library(lubridate)
 library(ggplot2)
 library(stringr)
+library(readxl)
 
 
+###HHS MIGRANT DATA  ---------------------------
 
-
-hhs_migrant_data <- read.csv("/workspaces/NYT_HHS_MIGRANT/data 2.csv") %>%
+hhs_migrant_data <- read.csv("/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/data 2.csv") %>%
     rename(
         date_of_entry = "Child.s.Date.of.Entry",
         date_of_release = "Child.s.Date.of.Release",
@@ -31,3 +32,10 @@ top_countries <- days_till_reunification %>%
     slice(1:5) %>%
     select(country_of_origin) %>%
 mutate(country_of_origin = str_trim(country_of_origin))
+
+
+
+### ZCTA info from Health Resources and Services Administration ---------- 
+
+zip_info <- read_excel('/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/ZIP Code to ZCTA Crosswalk.xlsx')
+

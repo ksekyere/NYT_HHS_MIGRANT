@@ -15,10 +15,6 @@ days_till_reunification %>%
 
 #line graphs -------------
 days_till_reunification %>%
-    mutate(
-        release_month = rollback(date_of_release, roll_to_first = TRUE),
-        arrival_month = month(date_of_entry)
-    ) %>%
     mutate(Sponsor.Category = as.character(Sponsor.Category)) %>%
     group_by(release_month) %>%
     summarise(average_time_to_reunify = mean(days_till_reunification)) %>%

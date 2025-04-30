@@ -23,7 +23,11 @@ hhs_migrant_data <- read.csv(
 
 
 days_till_reunification <- hhs_migrant_data %>%
-    mutate(days_till_reunification = date_of_release - date_of_entry)
+    mutate(days_till_reunification = date_of_release - date_of_entry) %>%
+    mutate(
+        release_month = rollback(date_of_release, roll_to_first = TRUE),
+        arrival_month = rollback(date_of_entry, roll_to_first = TRUE)
+    )
 
 
 top_countries <- days_till_reunification %>%
@@ -41,3 +45,15 @@ top_countries <- days_till_reunification %>%
 zip_info <- read_excel(
     '/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/ZIP Code to ZCTA Crosswalk.xlsx'
 )
+
+
+zcta_pop <- read.csv(
+    '/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/zcta_population.csv'
+) %>%
+    slice(-1) %>%
+    separate(NAME, c("type", "zcta")) %>%
+    rename(zcta_pop = P1_001N) %>%
+    mutate(pop_cat = ifelse(zcta_pop < 5000, 'rural', 'urban')) %>%
+    select(zcta, zcta_pop, pop_cat)
+
+geo_info <- left_join(zip_info, zcta_pop, by = 'zcta')

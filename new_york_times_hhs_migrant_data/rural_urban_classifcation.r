@@ -11,22 +11,6 @@ sponsor_geo_info <- left_join(
     rename_with(str_to_lower)
 
 
-sponsor_geo_info_coordinates <- sponsor_geo_info %>%
-    #geocode the zcta
-    geocode(postalcode = "zcta")
-
-
-
-sponsor_geo_info_coordinates %>% head(6) %>% View()
-    write.csv(sponsor_geo_info_coordinates, file = "sponsor_geo_info_coordinates.csv")
-
-    sponsor_geo_info_coordinates %>% 
-    group_by(zcta, long, lat) %>%
-    summarise(total_kids = n())%>%
-    ungroup() %>% 
-    ggplot(aes(x = long, y = lat, fill = total_kids)) +
-    geom_polygon() 
-#create a new column for the month
 
 
 

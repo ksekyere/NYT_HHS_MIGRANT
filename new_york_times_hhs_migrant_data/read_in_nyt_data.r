@@ -6,6 +6,7 @@ library(readxl)
 library(tidyr)
 library(tidyverse)
 library(scales)
+library(Microsoft365R)
 
 
 
@@ -59,5 +60,3 @@ zcta_pop <- read.csv(
     rename(zcta_pop = P1_001N) %>%
     mutate(pop_cat = ifelse(zcta_pop < 5000, 'rural', 'urban')) %>%
     select(zcta, zcta_pop, pop_cat)
-
-geo_info <- left_join(zip_info, zcta_pop, by = 'zcta')

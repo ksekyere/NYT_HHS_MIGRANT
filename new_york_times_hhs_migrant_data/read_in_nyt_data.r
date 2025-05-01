@@ -3,6 +3,10 @@ library(lubridate)
 library(ggplot2)
 library(stringr)
 library(readxl)
+library(tidyr)
+library(tidyverse)
+library(scales)
+
 
 
 ###HHS MIGRANT DATA  ---------------------------

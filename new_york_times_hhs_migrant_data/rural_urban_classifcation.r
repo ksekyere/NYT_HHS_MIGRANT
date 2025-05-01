@@ -11,7 +11,24 @@ sponsor_geo_info <- left_join(
     rename_with(str_to_lower)
 
 
-sponsor_geo_info %>% filter(is.na(pop_cat)) %>% View
+sponsor_geo_info_coordinates <- sponsor_geo_info %>%
+    #geocode the zcta
+    geocode(postalcode = "zcta")
+
+
+
+sponsor_geo_info_coordinates %>% head(6) %>% View()
+    write.csv(sponsor_geo_info_coordinates, file = "sponsor_geo_info_coordinates.csv")
+
+    sponsor_geo_info_coordinates %>% 
+    group_by(zcta, long, lat) %>%
+    summarise(total_kids = n())%>%
+    ungroup() %>% 
+    ggplot(aes(x = long, y = lat, fill = total_kids)) +
+    geom_polygon() 
+#create a new column for the month
+
+
 
 #breakdown of released by rural/urban classification
 sponsor_geo_info %>%
@@ -38,6 +55,6 @@ sponsor_geo_info %>%
     ggtitle("Proportion of Rural Releases", subtitle = "Child Level") +
     #update legend title
     labs(color = 'Area Released') +
-    # remove background 
+    # remove background
     theme_classic() +
     theme(text = element_text(size = 30))

@@ -6,7 +6,7 @@ library(readxl)
 library(tidyr)
 library(tidyverse)
 library(scales)
-library(Microsoft365R)
+
 
 
 
@@ -51,6 +51,10 @@ zip_info <- read_excel(
     '/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/ZIP Code to ZCTA Crosswalk.xlsx'
 )
 
+ruco_2010 <- read_excel('/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/RUCA2010zipcode.xlsx', 
+sheet = "Data") %>%
+mutate_all(as.character)
+
 
 zcta_pop <- read.csv(
     '/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/zcta_population.csv'
@@ -60,3 +64,9 @@ zcta_pop <- read.csv(
     rename(zcta_pop = P1_001N) %>%
     mutate(pop_cat = ifelse(zcta_pop < 5000, 'rural', 'urban')) %>%
     select(zcta, zcta_pop, pop_cat)
+
+
+geo_info <- zip_info %>% 
+left_join(zcta_pop, by = c("zcta")) %>%
+left_join(ruco_2010, by = c("ZIP_CODE"))
+

@@ -6,20 +6,20 @@ library(ggplot2)
 sponsor_geo_info <- left_join(
     days_till_reunification,
     geo_info,
-    by = c("Sponsor.Zipcode" = "ZIP_CODE")
-) %>%
+    by = c("Sponsor.Zipcode" = "ZIP_CODE")) %>%
+    rename(zip_code = "Sponsor.Zipcode")  %>%
     rename_with(str_to_lower)
 
 
 
-
+names(sponsor_geo_info)
 
 #breakdown of released by rural/urban classification
 sponsor_geo_info %>%
     group_by(pop_cat, release_month) %>%
     #filter out the < 250 entries that do not have legit zip codes
     filter(!is.na(pop_cat)) %>%
-    group_by(pop_cat, release_month) %>%
+    group_by(ruca1, release_month) %>%
     #calculate total releases for each zcta
     summarise(total_kids = n()) %>%
     ungroup() %>%
@@ -30,7 +30,7 @@ sponsor_geo_info %>%
     #create a line graph to show findings
     ggplot(aes(x = release_month, y = pct_of_total)) +
     #increase linewidth size
-    geom_line(aes(color = pop_cat), linewidth = 2) +
+    geom_line(aes(color = ruca1), linewidth = 2) +
     scale_y_continuous(labels = percent) +
     #update axis titles
     ylab('') +

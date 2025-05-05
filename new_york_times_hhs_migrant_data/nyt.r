@@ -1,6 +1,6 @@
 
 
- source("/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/read_in_nyt_data.r", encoding = "UTF-8")
+ source("/workspaces/NYT_HHS_MIGRANT/new_york_times_hhs_migrant_data/read_in_data.r", encoding = "UTF-8")
 
 
 
@@ -69,6 +69,24 @@ days_till_reunification %>%
     ggtitle("Average Time To Reunify (calendar days)", subtitle = "Data Source NYT HHS Migrant data") +
     ylab("") +
     xlab("ORR Release Date")
+
+
+
+
+
+#estimated ORR population 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

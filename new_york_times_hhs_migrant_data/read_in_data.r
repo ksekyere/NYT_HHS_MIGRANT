@@ -32,7 +32,16 @@ days_till_reunification <- hhs_migrant_data %>%
     mutate(
         release_month = rollback(date_of_release, roll_to_first = TRUE),
         arrival_month = rollback(date_of_entry, roll_to_first = TRUE)
-    )
+    ) %>%
+        mutate(,
+        fiscal_year_release  = as.integer(
+            as.yearmon(date_of_release) - 9 / 12 + 1
+            ),
+            fiscal_year_entry  = as.integer(
+            as.yearmon(date_of_entry) - 9 / 12 + 1
+            ), 
+        cal_year_of_release = year(date_of_release)
+        )
 
 
 top_countries <- days_till_reunification %>%

@@ -4,27 +4,18 @@ source(
 )
 
 
-month_seq = seq(
-    min(hhs_migrant_data$date_of_entry),
-    max(hhs_migrant_data$date_of_entry),
-    by = "month"
-)
 
+estimate_pop_list = list()
 
-estimated_orr_pop = cbind(
-    days_till_reunification %>%
-        group_by(arrival_month) %>%
-        summarise(arrivals = n()) %>%
-        arrange(arrival_month) %>%
-        mutate(cum_arrivals = cumsum(arrivals)),
+for(i in month_seq){
+    
+    df <- estimate_population(i)
+    
+    estimate_pop_list[[i]] <- df
 
-    days_till_reunification %>%
-        group_by(release_month) %>%
-        summarise(releases = n()) %>%
-        arrange(release_month) %>%
-        mutate(cum_releases = cumsum(releases))
-) %>%
-    mutate(estimated_orr_pop = cum_arrivals - cum_releases)
+}
+
+estimate_orr_poo = do.call(rbind, estimate_pop_list)
 
 
 estimated_orr_pop %>%
@@ -88,3 +79,5 @@ estimated_orr_pop %>%
         label = "Biden Admin", 
         size = 10
     )
+
+

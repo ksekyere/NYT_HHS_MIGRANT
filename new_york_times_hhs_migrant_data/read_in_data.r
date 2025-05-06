@@ -41,7 +41,7 @@ days_till_reunification <- hhs_migrant_data %>%
             as.yearmon(date_of_entry) - 9 / 12 + 1
             ), 
         cal_year_of_release = year(date_of_release)
-        )
+        ) 
 
 
 top_countries <- days_till_reunification %>%

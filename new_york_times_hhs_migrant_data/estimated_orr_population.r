@@ -3,32 +3,71 @@ source(
     encoding = "UTF-8"
 )
 
+month_seq <- seq(
+    min(hhs_migrant_data$date_of_entry),
+    max(hhs_migrant_data$date_of_release),
+    by = "month"
+)
+
+day_seq <- seq(
+    min(hhs_migrant_data$date_of_entry),
+    max(hhs_migrant_data$date_of_release),
+    by = "day"
+)
+
+week_seq <- seq(
+    min(hhs_migrant_data$date_of_entry),
+    max(hhs_migrant_data$date_of_release),
+    by = "week"
+)
+
+
+
+estimate_population <- function(date_i) {
+    days_till_reunification %>%
+        summarise(
+            estimate_orr_pop = length(
+                ID[
+                    date_of_release > as.Date(date_i) &
+                    date_of_entry <= as.Date(date_i)
+                ]
+            ),
+            arrivals = length(ID[date_of_entry <= as.Date(date_i) & date_of_entry > (as.Date(date_i) - 7)] ),
+            releases = length(ID[date_of_release <= as.Date(date_i) & date_of_release > (as.Date(date_i) - 7)]) 
+        )
+}
+
+
+
+
 
 
 estimate_pop_list = list()
 
-for(i in month_seq){
-    
+for (i in week_seq) {
     df <- estimate_population(i)
-    
-    estimate_pop_list[[i]] <- df
 
+    df$pop_date <- as.Date(i)
+
+    estimate_pop_list[[i]] <- df
 }
 
-estimate_orr_poo = do.call(rbind, estimate_pop_list)
+estimate_orr_pop = do.call(rbind, estimate_pop_list)
 
 
-estimated_orr_pop %>%
-    pivot_longer(-c(arrival_month, release_month)) %>%
-    filter(!name %in% c("cum_arrivals", "cum_releases")) %>%
-    ggplot(aes(x = arrival_month, y = value)) +
+estimate_orr_pop %>%
+    pivot_longer(-c(pop_date)) %>%
+    #filter(!name %in% c("cum_arrivals", "cum_releases")) %>%
+    ggplot(aes(x = pop_date, y = value)) +
     scale_y_continuous(labels = comma) +
     scale_color_manual(
         labels = c("Arrivals", "Estimated ORR pop", "Releases"),
         values = c("red", "black", "green")
     ) +
     geom_line(aes(color = name), linewidth = 1.5) +
-    xlab('') + ylab('') + ggtitle("# of Kids") +
+    xlab('Weeks') +
+    ylab('') +
+    ggtitle("# of Kids", subtitle = "Source: NYT") +
     theme_classic() +
     theme(text = element_text(size = 30)) +
     annotate(
@@ -40,11 +79,11 @@ estimated_orr_pop %>%
         fill = "green",
         alpha = 0.3
     ) +
-       annotate(
+    annotate(
         'text',
-        x = as.Date("2015-06-25"), 
-        y = 15000, 
-        label = "Obama Admin", 
+        x = as.Date("2015-06-25"),
+        y = 15000,
+        label = "Obama Admin",
         size = 6
     ) +
     annotate(
@@ -56,14 +95,14 @@ estimated_orr_pop %>%
         fill = "red",
         alpha = 0.3
     ) +
-          annotate(
+    annotate(
         'text',
-        x = as.Date("2018-06-01"), 
-        y = 15000, 
-        label = "Trump Admin", 
+        x = as.Date("2018-06-01"),
+        y = 15000,
+        label = "Trump Admin",
         size = 10
-    ) + 
-        annotate(
+    ) +
+    annotate(
         'rect',
         xmin = as.Date("2021-01-22"),
         xmax = as.Date("2023-06-01"),
@@ -72,11 +111,11 @@ estimated_orr_pop %>%
         fill = "blue",
         alpha = 0.3
     ) +
-          annotate(
+    annotate(
         'text',
-        x = as.Date("2022-06-01"), 
-        y = 15000, 
-        label = "Biden Admin", 
+        x = as.Date("2022-06-01"),
+        y = 15000,
+        label = "Biden Admin",
         size = 10
     )
 
